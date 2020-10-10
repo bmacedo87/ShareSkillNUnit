@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using System.Threading;
 
 namespace MarsFramework.Pages
 {
@@ -37,7 +36,7 @@ namespace MarsFramework.Pages
             //Initiate Excel file
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SignIn");
 
-                        //Click sign in button
+            //Click sign in button
             SignIntab.Click();
 
             //Type in username
@@ -49,7 +48,7 @@ namespace MarsFramework.Pages
             //Click login button
             LoginBtn.Click();
 
-            Thread.Sleep(5000);
+            WaitHelpers.ElementIsVisible(driver, "XPath", "//a[contains(text(),'Mars Logo')]", 5);
 
         }
 

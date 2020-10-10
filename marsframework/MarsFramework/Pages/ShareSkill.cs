@@ -2,11 +2,10 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
-using System.Threading;
 
 namespace MarsFramework.Pages
 {
-    internal class ShareSkill
+    internal class ShareSkill : WaitHelpers
     {
         public ShareSkill()
         {
@@ -14,7 +13,7 @@ namespace MarsFramework.Pages
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
         }
 
-        //Click on ShareSkill Button
+        //Share Skill button
         [FindsBy(How = How.LinkText, Using = "Share Skill")]
         private IWebElement ShareSkillButton { get; set; }
 
@@ -75,19 +74,15 @@ namespace MarsFramework.Pages
         private IWebElement endTime { get; set; }
 
         //Click on Skill Trade option
-        [FindsBy(How = How.XPath, Using = "//input[@name='skillTrades' and @xpath='1']")]
+        [FindsBy(How = How.CssSelector, Using = "input[name='skillTrades'][value='true']")]
         private IWebElement SkillTradeOption { get; set; }
 
         //Enter Skill Exchange
-        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Add new tag' and @xpath='1']")]
+        [FindsBy(How = How.XPath, Using = "//div[@class='form-wrapper']//input[@placeholder='Add new tag']")]
         private IWebElement skillExchangeTag { get; set; }
 
-        //Enter the amount for Credit
-        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Amount']")]
-        private IWebElement CreditAmount { get; set; }
-
         //Click on Active/Hidden option
-        [FindsBy(How = How.XPath, Using = "//input[@name='isActive' and @xpath='1']")]
+        [FindsBy(How = How.CssSelector, Using = "input[name='isActive'][value='true']")]
         private IWebElement activeOption { get; set; }
 
         //Click on Save button
@@ -100,36 +95,10 @@ namespace MarsFramework.Pages
             ShareSkillButton.Click();
         }
 
-        internal void ServiceType()
-        {
-            //entering the service type
-            if (GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType") == "Hourly basis service")
-            {
-                hourlyBasis.Click(); 
-            }
-            else
-            {
-                OneOff.Click();
-            }
-        }
-
-        internal void LocationType()
-        {
-            //entering the location type
-            if (GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType") == "Online")
-            {
-                onLine.Click();
-            }
-            else
-            {
-                onSite.Click();
-            }
-        }
-      
         internal void EnterShareSkill()
         {
-            
-            Thread.Sleep(3000);
+
+            WaitHelpers.ElementIsVisible(driver, "XPath", "//h3[contains(text(),'Title')]", 5);
             //Type in Title and Description
             Title.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
             Description.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Description"));
@@ -140,7 +109,7 @@ namespace MarsFramework.Pages
             
             // Type in Tag and click enter
             Tags.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Tags"));
-            Tags.SendKeys("{ENTER}");
+            Tags.SendKeys(Keys.Enter);
 
             //Select Service Type 
             ServiceType();
@@ -166,19 +135,49 @@ namespace MarsFramework.Pages
 
             //Skill-Exchange tag
             skillExchangeTag.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
+            skillExchangeTag.SendKeys(Keys.Enter);
 
             //Select Active
             activeOption.Click();
 
             //Click save button
-            saveButton.Click();
-
+            saveButton.Click(); 
         }
 
+        internal void ServiceType()
+        {
+            //entering the service type
+            if (GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType") == "Hourly basis service")
+            {
+                hourlyBasis.Click();
+            }
+            else
+            {
+                OneOff.Click();
+            }
+        }
+
+        internal void LocationType()
+        {
+            //entering the location type
+            if (GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType") == "Online")
+            {
+                onLine.Click();
+            }
+            else
+            {
+                onSite.Click();
+            }
+        }
 
         internal void EditShareSkill()
         {
+            //Type in Title
+            Title.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Title"));
 
+            //Click save button
+            saveButton.Click();
+            WaitHelpers.ElementIsVisible(driver, "XPath", "//h2[contains(text(),'Manage Listings')]", 5);
         }
     }
 }
