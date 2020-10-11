@@ -1,4 +1,5 @@
-﻿using MarsFramework.Global;
+﻿using AutoItX3Lib;
+using MarsFramework.Global;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -81,6 +82,11 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//div[@class='form-wrapper']//input[@placeholder='Add new tag']")]
         private IWebElement skillExchangeTag { get; set; }
 
+        //Click add file
+        [FindsBy(How = How.CssSelector, Using = "i[class='huge plus circle icon padding-25']")]
+        private IWebElement addFileIcon { get; set; }
+      
+
         //Click on Active/Hidden option
         [FindsBy(How = How.CssSelector, Using = "input[name='isActive'][value='true']")]
         private IWebElement activeOption { get; set; }
@@ -136,6 +142,17 @@ namespace MarsFramework.Pages
             //Skill-Exchange tag
             skillExchangeTag.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
             skillExchangeTag.SendKeys(Keys.Enter);
+
+            //Click on add file
+            addFileIcon.Click();
+
+            //Select file
+            AutoItX3 autoIT = new AutoItX3();
+            autoIT.WinWait("Open");
+            autoIT.WinActivate("Open");
+            autoIT.Send("C:\\Users\\User\\Documents\\SignInFeatureFile");
+            autoIT.Send("{ENTER}");
+
 
             //Select Active
             activeOption.Click();

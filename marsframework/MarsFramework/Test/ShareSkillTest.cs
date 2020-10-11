@@ -1,4 +1,5 @@
-﻿using MarsFramework.Pages;
+﻿using MarsFramework.Global;
+using MarsFramework.Pages;
 using NUnit.Framework;
 
 namespace MarsFramework
