@@ -1,6 +1,7 @@
 ﻿using MarsFramework.Global;
 using MarsFramework.Pages;
 using NUnit.Framework;
+using RelevantCodes.ExtentReports;
 
 namespace MarsFramework
 {
@@ -14,6 +15,7 @@ namespace MarsFramework
             [Test, Order (1)]
             public void Login_Test()
             {
+                test = extent.StartTest("Login_Test"); 
                 SignIn _loginAssertion = new SignIn();
                 _loginAssertion.LoginAssertion();
             }
@@ -21,6 +23,7 @@ namespace MarsFramework
             [Test, Order (2)]
             public void AddShareSkill_Test()
             {
+                test = extent.StartTest("AddShareSkill_Test");
                 //Test
                 ShareSkill _shareSkill = new ShareSkill();
                 _shareSkill.GoToShareSkill();
@@ -35,6 +38,7 @@ namespace MarsFramework
             [Test, Order(3)]
             public void EditShareSkill_Test()
             {
+                test = extent.StartTest("EditShareSkill_Test");
                 //Go to Manage Listings
                 ManageListings _listings = new ManageListings();
                 _listings.GoToManageListings();
@@ -49,8 +53,9 @@ namespace MarsFramework
             }
 
             [Test, Order(4)]
-            public void DeleteShareShill_Test()
+            public void DeleteShareSkill_Test()
             {
+                test = extent.StartTest("DeleteShareSkill_Test");
                 //Go to Manage Listings
                 ManageListings _listings = new ManageListings();
                 _listings.GoToManageListings();

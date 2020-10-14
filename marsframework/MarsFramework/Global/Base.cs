@@ -14,7 +14,7 @@ namespace MarsFramework.Global
         public static int Browser = Int32.Parse(MarsResource.Browser);
         public static String ExcelPath = "C:\\Workspace\\CompetitionTask\\marsframework\\MarsFramework\\ExcelData\\TestData.xlsx";
         public static string ScreenshotPath = MarsResource.ScreenShotPath;
-        public static string ReportPath = MarsResource.ReportPath;
+        public static string ReportPath = @"C:\Workspace\CompetitionTask\marsframework\MarsFramework\ExtentReports\Report.html";
         public string BaseUrl = "http://localhost:5000/";
         #endregion
 
@@ -30,9 +30,7 @@ namespace MarsFramework.Global
             //initialize browser
             InitializeBrowser(Browser);
             driver.Navigate().GoToUrl(BaseUrl);
-
-          
-
+            
             #region Initialise Reports
 
             extent = new ExtentReports(ReportPath, false, DisplayOrder.NewestFirst);
@@ -54,9 +52,19 @@ namespace MarsFramework.Global
         }
 
 
+
+
         [TearDown]
         public void TearDown()
-        {     
+        {
+            //// Screenshot
+            String img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Report");//AddScreenCapture(@"E:\Dropbox\VisualStudio\Projects\Beehive\TestReports\ScreenShots\");
+            test.Log(LogStatus.Info, "Image example: " + img);
+            // end test. (Reports)
+            extent.EndTest(test);
+            // calling Flush writes everything to the log file (Reports)
+            extent.Flush();
+            //Close the driver :)  
             GlobalDefinitions.driver.Close();
             GlobalDefinitions.driver.Quit();
         }
